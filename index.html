@@ -2,57 +2,200 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>H&Aur@ – Where beauty meets aur@</title>
+<title>H & Aur@ – Where beauty meets aura....</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
-body{margin:0;font-family:Arial;background:#fff7f5;color:#111}
-header,footer{background:#111;color:#fff;padding:15px}
-nav a{color:#fff;margin:0 10px;text-decoration:none;font-weight:600}
-.section{padding:40px 20px;max-width:1000px;margin:auto}
-h1,h2{text-align:center}
-.btn{display:inline-block;padding:10px 20px;background:#c2183f;color:#fff;border-radius:25px;text-decoration:none}
+:root{
+  --grad: linear-gradient(90deg,#f5b041,#f39c12,#e74c3c);
+  --dark:#111;
+  --light:#fff7f5;
+}
+body{margin:0;font-family:Segoe UI,Arial;background:var(--light);color:#222}
+a{text-decoration:none;color:inherit}
+
+header{
+  background:var(--dark);
+  color:#fff;
+  padding:18px 20px;
+  position:sticky;top:0;z-index:999;
+}
+.topbar{display:flex;justify-content:space-between;align-items:center}
+.brand h1{margin:0;font-size:28px;background:var(--grad);-webkit-background-clip:text;color:transparent}
+.brand p{margin:2px 0 0;font-size:13px;opacity:.85}
+
+nav a{margin:0 10px;font-weight:600;color:#fff}
+
+.hero{
+  padding:80px 20px;
+  text-align:center;
+  background:linear-gradient(120deg,#111,#2a2a2a);
+  color:#fff;
+}
+.hero h2{font-size:42px;margin-bottom:10px}
+.hero p{max-width:600px;margin:0 auto 30px;font-size:16px}
+
+.btn-main{
+  background:var(--grad);
+  color:#fff;
+  padding:16px 34px;
+  border-radius:40px;
+  font-weight:800;
+  display:inline-block;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+
+.section{max-width:1200px;margin:auto;padding:60px 20px}
+.section h2{text-align:center;margin-bottom:40px;background:var(--grad);-webkit-background-clip:text;color:transparent}
+
+.features{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:25px;
+}
+.box{
+  background:#fff;
+  padding:26px;
+  border-radius:18px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.about-preview{
+  background:#fff;
+  padding:35px;
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  max-width:900px;
+  margin:auto;
+  text-align:center;
+}
+
+.faq, .reviews{max-width:900px;margin:auto}
+.item{
+  background:#fff;
+  padding:20px;
+  border-radius:14px;
+  margin-bottom:15px;
+}
+
+footer{background:#111;color:#fff;padding:30px;text-align:center}
+
+.banner{
+  background:var(--grad);
+  color:#fff;
+  padding:14px;
+  font-weight:800;
+  text-align:center;
+}
+
+.whatsapp{
+  position:fixed;bottom:20px;right:20px;
+  background:#25D366;color:#fff;
+  padding:14px 18px;border-radius:50px;font-weight:700;
+}
+#topBtn{
+  position:fixed;bottom:90px;right:22px;
+  padding:12px 16px;border-radius:50%;
+  border:none;background:var(--grad);color:#fff;
+  cursor:pointer;display:none;
+}
 </style>
-<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+
 <header>
-<strong>H&Aur@</strong> – Where beauty meets aur@
-<nav>
-<a href="index.html">Home</a>
-<a href="shop.html">Shop</a>
-<a href="about.html">About</a>
-<a href="contact.html">Contact</a>
-</nav>
+  <div class="topbar">
+    <div class="brand">
+      <h1>H & Aur@</h1>
+      <p>Where beauty meets aura....</p>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </div>
 </header>
 
-<div class="section">
-<h1>Welcome to H&Aur@</h1>
-<h3 style="text-align:center;">Where beauty meets aur@</h3>
+<section class="hero">
+  <h2>Natural Beauty, Pure Care</h2>
+  <p>
+    Experience premium Multani Mitti crafted for glowing skin,
+    healthy hair and natural beauty rituals.
+  </p>
+  <a href="shop.html" class="btn-main">Explore Multani Mitti</a>
+</section>
 
-<p>
-H&Aur@ is a natural beauty brand focused on bringing you pure, traditional
-Multani Mitti in a modern, hygienic and easy-to-use way.
-</p>
+<section class="section">
+  <h2>Why Choose H & Aur@</h2>
+  <div class="features">
+    <div class="box">🌿 100% Natural & Chemical Free</div>
+    <div class="box">🏺 Traditional Clay, Modern Purity</div>
+    <div class="box">🧪 Lab Tested Quality</div>
+    <div class="box">✨ Suitable for Face, Hair & Body</div>
+    <div class="box">🚚 Fast & Secure Shipping</div>
+    <div class="box">💳 COD & UPI Available</div>
+    <div class="box">💖 Trusted by 1000+ Customers</div>
+    <div class="box">🇮🇳 Made in India</div>
+  </div>
+</section>
 
-<p>
-Our products are suitable for face, hair and body care and are carefully
-packed to maintain purity and quality.
-</p>
+<section class="section">
+  <h2>About H & Aur@</h2>
+  <div class="about-preview">
+    <p>
+      H & Aur@ is a natural beauty brand focused on delivering
+      pure, traditional Multani Mitti with modern hygiene standards.
+      Our mission is to bring back honest beauty rituals.
+    </p>
+    <a href="about.html" class="btn-main">Read More</a>
+  </div>
+</section>
 
-<p>
-We believe in simple beauty rituals, clean ingredients and honest products.
-</p>
+<section class="section reviews">
+  <h2>What Our Customers Say</h2>
+  <div class="item">⭐️⭐️⭐️⭐️⭐️ My skin feels fresh & oil-free!</div>
+  <div class="item">⭐️⭐️⭐️⭐️⭐️ Best Multani Mitti I’ve ever used.</div>
+  <div class="item">⭐️⭐️⭐️⭐️⭐️ Hair fall reduced in 2 weeks.</div>
+</section>
 
-<div style="text-align:center;">
-<a href="shop.html" class="btn">Explore Our Products</a>
-</div>
-</div>
+<section class="section faq">
+  <h2>Frequently Asked Questions</h2>
+
+  <div class="item"><b>1. Is this pure Multani Mitti?</b><br>Yes, 100% natural & chemical free.</div>
+  <div class="item"><b>2. Can I use it daily?</b><br>2–3 times a week is recommended.</div>
+  <div class="item"><b>3. Is it good for acne?</b><br>Yes, helps absorb excess oil.</div>
+  <div class="item"><b>4. Can men use it?</b><br>Yes, suitable for all.</div>
+  <div class="item"><b>5. Is it safe for sensitive skin?</b><br>Patch test recommended.</div>
+  <div class="item"><b>6. Can it be used on hair?</b><br>Yes, as a natural cleanser.</div>
+  <div class="item"><b>7. COD available?</b><br>Yes.</div>
+  <div class="item"><b>8. UPI available?</b><br>Yes.</div>
+  <div class="item"><b>9. Shipping charges?</b><br>Free above ₹999.</div>
+  <div class="item"><b>10. Delivery time?</b><br>3–6 working days.</div>
+  <div class="item"><b>11. Shelf life?</b><br>24 months.</div>
+  <div class="item"><b>12. Return policy?</b><br>Only damaged products.</div>
+  <div class="item"><b>13. Is it lab tested?</b><br>Yes.</div>
+  <div class="item"><b>14. Can pregnant women use?</b><br>Consult doctor first.</div>
+  <div class="item"><b>15. Made in India?</b><br>Yes 🇮🇳.</div>
+</section>
 
 <footer>
-<a href="shipping.html">Shipping</a> |
-<a href="terms.html">Terms</a> |
-<a href="privacy.html">Privacy</a>
+© 2025 H & Aur@ – Where beauty meets aura....
 </footer>
+
+<div class="banner">
+🎉 Free Shipping on orders above ₹999 | COD & UPI Available
+</div>
+
+<a class="whatsapp" href="https://wa.me/918219383887" target="_blank">WhatsApp</a>
+<button id="topBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+window.onscroll=()=>{topBtn.style.display=window.scrollY>300?'block':'none'}
+</script>
+
 </body>
 </html>
