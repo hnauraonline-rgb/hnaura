@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Shop – H&Aur@</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+
+<style>
+/* SHOP EXTRA STYLE */
+.products-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:20px;
+}
+.product-card{
+  background:#fff;
+  padding:15px;
+  border-radius:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.08);
+  display:flex;
+  flex-direction:column;
+}
+.product-card img{
+  width:100%;
+  border-radius:10px;
+}
+.product-card h4{
+  margin:10px 0 5px;
+}
+.product-card p{
+  font-size:14px;
+  color:#555;
+}
+.price{
+  font-weight:700;
+  margin:6px 0;
+}
+.cart-btn{
+  margin-top:auto;
+  background:#c2183f;
+  color:#fff;
+  border:none;
+  padding:10px;
+  border-radius:20px;
+  cursor:pointer;
+}
+.cart-btn:hover{
+  background:#a51533;
+}
+
+/* CART */
+.cart-panel{
+  position:fixed;
+  right:0;
+  top:0;
+  width:320px;
+  height:100%;
+  background:#fff;
+  box-shadow:-4px 0 20px rgba(0,0,0,0.2);
+  display:none;
+  flex-direction:column;
+  z-index:200;
+}
+.cart-panel h3{
+  background:#111;
+  color:#fff;
+  padding:15px;
+  margin:0;
+}
+.cart-items{
+  flex:1;
+  padding:15px;
+  overflow:auto;
+}
+.cart-items p{
+  font-size:14px;
+  margin-bottom:8px;
+}
+.cart-panel button{
+  margin:10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<strong>H&Aur@</strong> – Where beauty meets aur@
+<nav>
+<a href="index.html">Home</a>
+<a href="shop.html">Shop</a>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+</nav>
+</header>
+
+<div class="section">
+<h1>Shop Multani Mitti</h1>
+<p>
+Discover pure, natural Multani Mitti products for face, hair and body care.
+</p>
+
+<div class="products-grid" id="products"></div>
+</div>
+
+<!-- CART -->
+<div class="cart-panel" id="cart">
+<h3>Your Bag</h3>
+<div class="cart-items" id="cartItems"></div>
+<button class="btn" onclick="checkout()">Checkout</button>
+<button class="btn" onclick="toggleCart()">Close</button>
+</div>
+
+<footer>
+<a href="shipping.html">Shipping</a> |
+<a href="terms.html">Terms</a> |
+<a href="privacy.html">Privacy</a>
+</footer>
+
+<script>
+const products=[
+{id:1,name:"Multani Mitti 100g",price:79,desc:"Trial & travel pack",img:"https://via.placeholder.com/300"},
+{id:2,name:"Multani Mitti 250g",price:199,desc:"Face care use",img:"https://via.placeholder.com/300"},
+{id:3,name:"Multani Mitti 500g",price:249,desc:"Best seller",img:"https://via.placeholder.com/300"},
+{id:4,name:"Multani Mitti 1kg",price:449,desc:"Family & salon pack",img:"https://via.placeholder.com/300"}
+];
+
+const cart=[];
+const productDiv=document.getElementById("products");
+
+products.forEach(p=>{
+  const d=document.createElement("div");
+  d.className="product-card";
+  d.innerHTML=`
+    <img src="${p.img}">
+    <h4>${p.name}</h4>
+    <p>${p.desc}</p>
+    <div class="price">₹${p.price}</div>
+    <button class="cart-btn" onclick="addToCart(${p.id})">Add to Bag</button>
+  `;
+  productDiv.appendChild(d);
+});
+
+function addToCart(id){
+  const item=products.find(p=>p.id===id);
+  cart.push(item);
+  renderCart();
+  toggleCart();
+}
+
+function renderCart(){
+  const c=document.getElementById("cartItems");
+  c.innerHTML="";
+  cart.forEach(i=>{
+    c.innerHTML+=`<p>${i.name} – ₹${i.price}</p>`;
+  });
+}
+
+function toggleCart(){
+  const cartBox=document.getElementById("cart");
+  cartBox.style.display=cartBox.style.display==="flex"?"none":"flex";
+}
+
+function checkout(){
+  let total=cart.reduce((s,i)=>s+i.price,0);
+  let msg="Order from H&Aur@%0A";
+  cart.forEach(i=>msg+=`${i.name} - ₹${i.price}%0A`);
+  msg+=`Total: ₹${total}%0A%0APayment: COD / UPI`;
+  window.location.href="checkout.html";
+}
+</script>
+
+</body>
+</html>

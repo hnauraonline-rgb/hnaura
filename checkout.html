@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Checkout – H&Aur@</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+
+<style>
+.checkout-box{
+  max-width:600px;
+  margin:auto;
+  background:#fff;
+  padding:25px;
+  border-radius:12px;
+  box-shadow:0 8px 25px rgba(0,0,0,0.1);
+}
+input,textarea{
+  width:100%;
+  padding:10px;
+  margin-bottom:10px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+.payment-option{
+  border:1px solid #ddd;
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:15px;
+  cursor:pointer;
+}
+.payment-option:hover{
+  border-color:#c2183f;
+}
+.upi-box{
+  display:none;
+  background:#fff7f5;
+  padding:15px;
+  border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<strong>H&Aur@</strong> – Where beauty meets aur@
+<nav>
+<a href="index.html">Home</a>
+<a href="shop.html">Shop</a>
+<a href="contact.html">Contact</a>
+</nav>
+</header>
+
+<div class="section">
+<h1>Checkout</h1>
+
+<div class="checkout-box">
+
+<h3>Customer Details</h3>
+<input id="name" placeholder="Full Name">
+<input id="phone" placeholder="Mobile / WhatsApp Number">
+<textarea id="address" placeholder="Full Delivery Address"></textarea>
+
+<h3>Select Payment Method</h3>
+
+<div class="payment-option" onclick="selectPayment('cod')">
+<strong>Cash on Delivery (COD)</strong><br>
+Pay when product is delivered.
+</div>
+
+<div class="payment-option" onclick="selectPayment('upi')">
+<strong>UPI Payment</strong><br>
+Google Pay / PhonePe / Paytm
+</div>
+
+<div class="upi-box" id="upiBox">
+<p><strong>Pay to UPI ID:</strong></p>
+<h3>adityadhiman7876-1@oksbi</h3>
+<p>After payment, click “I Have Paid”.</p>
+<button class="btn" onclick="upiPaid()">I Have Paid</button>
+</div>
+
+<button class="btn" style="width:100%;" onclick="placeOrder()">Place Order</button>
+
+</div>
+</div>
+
+<footer>
+<a href="shipping.html">Shipping</a> |
+<a href="terms.html">Terms</a> |
+<a href="privacy.html">Privacy</a>
+</footer>
+
+<script>
+let selectedPayment="";
+
+function selectPayment(type){
+  selectedPayment=type;
+  document.getElementById("upiBox").style.display=
+    type==="upi"?"block":"none";
+}
+
+function placeOrder(){
+  const name=document.getElementById("name").value.trim();
+  const phone=document.getElementById("phone").value.trim();
+  const address=document.getElementById("address").value.trim();
+
+  if(!name||!phone||!address||!selectedPayment){
+    alert("Please fill all details & select payment method");
+    return;
+  }
+
+  let msg=
+`New Order – H&Aur@
+Name: ${name}
+Phone: ${phone}
+Address: ${address}
+Payment: ${selectedPayment.toUpperCase()}
+`;
+
+  window.open(
+    "https://wa.me/918219383887?text="+encodeURIComponent(msg),
+    "_blank"
+  );
+}
+
+function upiPaid(){
+  alert("Payment marked as done. Please place order.");
+}
+</script>
+
+</body>
+</html>
