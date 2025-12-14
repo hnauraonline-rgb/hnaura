@@ -57,7 +57,7 @@ nav a{margin:0 10px;font-weight:600;color:#fff}
   gap:30px;
 }
 
-/* CARD (ONLY WHITE AREA TINTED) */
+/* CARD */
 .card{
   background:#fff4f5;
   padding:18px;
@@ -66,55 +66,40 @@ nav a{margin:0 10px;font-weight:600;color:#fff}
   box-shadow:0 12px 30px rgba(0,0,0,0.08);
   text-align:center;
   position:relative;
-  transition:.3s;
 }
-.card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 16px 36px rgba(0,0,0,0.12);
-}
-
-/* TAGS */
 .tag{
   position:absolute;
-  top:12px;
-  left:12px;
+  top:12px;left:12px;
   background:var(--grad);
   color:#fff;
-  font-size:12px;
   padding:4px 12px;
   border-radius:20px;
+  font-size:12px;
   font-weight:700;
 }
 .offer{
   position:absolute;
-  top:12px;
-  right:12px;
+  top:12px;right:12px;
   background:#c0392b;
   color:#fff;
-  font-size:11px;
   padding:4px 10px;
   border-radius:20px;
+  font-size:11px;
   font-weight:800;
 }
-
 .card img{
   width:100%;
   height:190px;
   object-fit:contain;
   cursor:pointer;
-  background:#fff4f5;
-  border-radius:14px;
 }
-
-.card h3{color:#000;font-weight:800}
-.price{color:#000;font-size:18px;font-weight:800}
-.cut{font-size:13px;text-decoration:line-through;color:#777}
+.price{font-size:18px;font-weight:800}
+.cut{text-decoration:line-through;color:#777;font-size:13px}
 
 /* QTY */
 .qty{
   display:flex;
   justify-content:center;
-  align-items:center;
   gap:10px;
   margin:10px 0;
 }
@@ -122,20 +107,19 @@ nav a{margin:0 10px;font-weight:600;color:#fff}
   width:32px;height:32px;
   border:none;border-radius:50%;
   background:var(--grad);
-  color:#fff;font-weight:900;cursor:pointer;
+  color:#fff;font-weight:900;
 }
 
-/* BUTTONS */
+/* BUTTON */
 .btn{
   padding:10px 22px;
   border-radius:30px;
   border:none;
-  cursor:pointer;
   font-weight:800;
+  cursor:pointer;
 }
 .add{background:var(--grad);color:#fff}
 .view{background:#eee}
-.disabled{background:#ccc;cursor:not-allowed}
 
 /* MODAL */
 #modal{
@@ -157,7 +141,8 @@ nav a{margin:0 10px;font-weight:600;color:#fff}
 #close{
   position:absolute;
   top:10px;right:15px;
-  cursor:pointer;font-size:20px;
+  cursor:pointer;
+  font-size:20px;
 }
 
 /* WHATSAPP */
@@ -170,6 +155,7 @@ nav a{margin:0 10px;font-weight:600;color:#fff}
   border-radius:50px;
   font-weight:800;
 }
+button,.btn{touch-action:manipulation}
 </style>
 </head>
 
@@ -186,6 +172,18 @@ nav a{margin:0 10px;font-weight:600;color:#fff}
       <a href="shop.html">Shop</a>
       <a href="contact.html">Contact</a>
       <a href="login.html">Login</a>
+      <select id="langSwitch" onchange="setLang(this.value)"
+style="
+margin-left:10px;
+padding:6px 10px;
+border-radius:20px;
+border:none;
+font-weight:600;
+">
+  <option value="en">EN</option>
+  <option value="hi">HI</option>
+</select>
+
     </nav>
     <div class="cart-btn" onclick="location.href='checkout.html'">
       🛒 Cart (<span id="cartCount">0</span>)
@@ -198,7 +196,46 @@ nav a{margin:0 10px;font-weight:600;color:#fff}
 </div>
 
 <section class="section">
-<div class="grid">
+  <div class="grid" id="productGrid"></div>
+
+  <h2 style="text-align:center;margin:40px 0;
+  background:var(--grad);-webkit-background-clip:text;color:transparent">
+  🚀 Coming Soon
+  </h2>
+
+  <div class="grid">
+    <div class="card">
+      <span class="tag">Coming Soon</span>
+      <img src="assets/images/coming-soon.png">
+      <h3>Multani Mitti + Rose Water</h3>
+      <button class="btn" onclick="notifyMe('Multani Mitti + Rose Water')">Notify Me</button>
+    </div>
+    <div class="card">
+      <span class="tag">Coming Soon</span>
+      <img src="assets/images/coming-soon.png">
+      <h3>Herbal Face Pack</h3>
+      <button class="btn" onclick="notifyMe('Herbal Face Pack')">Notify Me</button>
+    </div>
+    <div class="card">
+      <span class="tag">Coming Soon</span>
+      <img src="assets/images/coming-soon.png">
+      <h3>Hair Care Clay Mask</h3>
+      <button class="btn" onclick="notifyMe('Hair Care Clay Mask')">Notify Me</button>
+    </div>
+  </div>
+</section>
+
+<div id="modal" onclick="closeModal()">
+  <div id="modalBox" onclick="event.stopPropagation()">
+    <div id="close" onclick="closeModal()">✖</div>
+    <img id="mImg" style="width:100%;height:220px;object-fit:contain">
+    <h3 id="mName"></h3>
+    <p id="mPrice"></p>
+    <button class="btn add" onclick="addToCart(cur.n,cur.p)">Add to Cart</button>
+  </div>
+</div>
+
+<a class="whatsapp" href="https://wa.me/918219383887" target="_blank">WhatsApp</a>
 
 <script>
 const products=[
@@ -209,154 +246,47 @@ const products=[
  {n:"Multani Mitti – 5kg",p:1399,mrp:3499,img:"assets/images/product-5kg.png",tag:""}
 ];
 
+const grid=document.getElementById("productGrid");
 products.forEach(pr=>{
-document.write(`
-<div class="card" data-name="${pr.n.toLowerCase()}">
-  ${pr.tag?`<span class="tag">${pr.tag}</span>`:""}
-  <span class="offer">60% OFF</span>
-
-  <img src="${pr.img}" onclick="openModal('${pr.n}',${pr.p},'${pr.img}')">
-
-  <h3>${pr.n}</h3>
-
-  <div class="price">₹${pr.p} <span class="cut">₹${pr.mrp}</span></div>
-  <small>🎁 Buy 2 Get 1 Free</small>
-
-  <div class="qty">
-    <button onclick="chg(this,-1)">−</button>
-    <span>1</span>
-    <button onclick="chg(this,1)">+</button>
+  grid.insertAdjacentHTML("beforeend",`
+  <div class="card" data-name="${pr.n.toLowerCase()}">
+    ${pr.tag?`<span class="tag">${pr.tag}</span>`:""}
+    <span class="offer">60% OFF</span>
+    <img src="${pr.img}" onclick="openModal('${pr.n}',${pr.p},'${pr.img}')">
+    <h3>${pr.n}</h3>
+    <div class="price">₹${pr.p} <span class="cut">₹${pr.mrp}</span></div>
+    <div class="qty">
+      <button onclick="chg(this,-1)">−</button>
+      <span>1</span>
+      <button onclick="chg(this,1)">+</button>
+    </div>
+    <button class="btn add" onclick="addFrom(this,'${pr.n}',${pr.p})">Add to Cart</button>
+    <button class="btn view" onclick="openModal('${pr.n}',${pr.p},'${pr.img}')">View</button>
   </div>
-
-  <button class="btn add" onclick="addFrom(this,'${pr.n}',${pr.p})">Add to Cart</button>
-  <button class="btn view" onclick="openModal('${pr.n}',${pr.p},'${pr.img}')">View</button>
-</div>
-`);
+  `);
 });
-</script>
 
-</div>
-<!-- ============================= -->
-<!-- 🚀 COMING SOON / FUTURE PRODUCTS (ADD ONLY) -->
-<!-- ============================= -->
-
-<h2 style="
-text-align:center;
-margin:40px 0 20px;
-font-weight:900;
-background:linear-gradient(90deg,#f5b041,#f39c12,#e74c3c);
--webkit-background-clip:text;
-color:transparent;
-">
-🚀 Coming Soon
-</h2>
-
-<div class="grid">
-
-  <div class="card">
-    <span class="tag">Coming Soon</span>
-    <img src="assets/images/coming-soon.png">
-    <h3>Multani Mitti + Rose Water</h3>
-    <div class="price">Launching Soon</div>
-    <small>Glow & hydration combo</small><br><br>
-    <button class="btn" onclick="notifyMe('Multani Mitti + Rose Water')">
-  Notify Me
-</button>
-
-  </div>
-
-  <div class="card">
-    <span class="tag">Coming Soon</span>
-    <img src="assets/images/coming-soon.png">
-    <h3>Herbal Face Pack</h3>
-    <div class="price">Launching Soon</div>
-    <small>Ayurvedic skin care</small><br><br>
-    <button class="btn" onclick="notifyMe('Multani Mitti + Rose Water')">
-  Notify Me
-</button>
-
-  </div>
-
-  <div class="card">
-    <span class="tag">Coming Soon</span>
-    <img src="assets/images/coming-soon.png">
-    <h3>Hair Care Clay Mask</h3>
-    <div class="price">Launching Soon</div>
-    <small>Hair strength & shine</small><br><br>
-    <button class="btn" onclick="notifyMe('Multani Mitti + Rose Water')">
-  Notify Me
-</button>
-
-  </div>
-
-</div>
-
-<!-- ============================= -->
-<!-- 🚀 END COMING SOON SECTION -->
-<!-- ============================= -->
-
-</section>
-
-<div id="modal" onclick="closeModal()">
-  <div id="modalBox" onclick="event.stopPropagation()">
-    <div id="close" onclick="closeModal()">✖</div>
-    <img id="mImg" style="width:100%;height:220px;object-fit:contain">
-    <h3 id="mName"></h3>
-    <p id="mPrice"></p>
-    <p>🔥 Flat 60% OFF<br>🎁 Buy 2 Get 1 Free<br><br>
-    ✔ 100% Natural Multani Mitti<br>
-    ✔ Face • Hair • Body</p>
-    <button class="btn add" onclick="addToCart(cur.n,cur.p)">Add to Cart</button>
-  </div>
-</div>
-
-<a class="whatsapp" href="https://wa.me/918219383887" target="_blank">WhatsApp</a>
-
-<script>
 let cur={};
-
-function chg(b,v){
- let s=b.parentElement.querySelector("span");
- s.innerText=Math.max(1,parseInt(s.innerText)+v);
-}
-function addFrom(b,n,p){
- let q=parseInt(b.parentElement.querySelector(".qty span").innerText);
- for(let i=0;i<q;i++) addToCart(n,p);
-}
-function openModal(n,p,i){
- cur={n,p};
- mImg.src=i;
- mName.innerText=n;
- mPrice.innerText="₹"+p;
- modal.style.display="block";
-}
+function chg(b,v){let s=b.parentElement.querySelector("span");s.innerText=Math.max(1,+s.innerText+v)}
+function addFrom(b,n,p){let q=+b.parentElement.querySelector(".qty span").innerText;for(let i=0;i<q;i++)addToCart(n,p)}
+function openModal(n,p,i){cur={n,p};mImg.src=i;mName.innerText=n;mPrice.innerText="₹"+p;modal.style.display="block"}
 function closeModal(){modal.style.display="none"}
-function filterProducts(q){
- q=q.toLowerCase();
- document.querySelectorAll(".card").forEach(c=>{
-  c.style.display=c.dataset.name.includes(q)?"block":"none";
- });
+function filterProducts(q){q=q.toLowerCase();document.querySelectorAll(".card").forEach(c=>c.style.display=c.dataset.name?.includes(q)?"block":"none")}
+function notifyMe(p){
+  location.href =
+    "https://wa.me/918219383887?text=" +
+    encodeURIComponent("Notify me for " + p);
 }
+
 </script>
 
 <script src="assets/js/cart.js"></script>
 <script>
-function notifyMe(product){
-  const msg = 
-`Hi H & Aur@ 👋
-I am interested in your upcoming product:
-
-📦 ${product}
-
-Please notify me when it is available.`;
-
-  window.open(
-    "https://wa.me/918219383887?text=" + encodeURIComponent(msg),
-    "_blank"
-  );
+function setLang(l){
+  localStorage.setItem("lang",l);
+  location.reload();
 }
 </script>
-
 
 </body>
 </html>
