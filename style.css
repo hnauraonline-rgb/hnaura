@@ -228,3 +228,29 @@ footer a{
     font-size:14px;
   }
 }
+button, .btn{
+  touch-action: manipulation;
+}
+/* ===== MOBILE HEADER FIX ===== */
+@media (max-width:768px){
+  .top{
+    flex-direction:column;
+    gap:10px;
+    text-align:center;
+  }
+
+  nav{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+
+  nav a{
+    margin:6px 10px;
+    display:inline-block;
+  }
+
+  .cart-btn{
+    margin-top:8px;
+  }
+}
