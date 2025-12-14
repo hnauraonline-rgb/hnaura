@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login – H & Aur@</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+  margin:0;font-family:Segoe UI,Arial;background:#fff7f5;
+  display:flex;align-items:center;justify-content:center;height:100vh;
+}
+.box{
+  background:#fff;padding:30px;border-radius:20px;
+  width:320px;box-shadow:0 20px 40px rgba(0,0,0,.15);
+  text-align:center;
+}
+h2{
+  margin-top:0;
+  background:linear-gradient(90deg,#f5b041,#f39c12,#e74c3c);
+  -webkit-background-clip:text;color:transparent;
+}
+input{
+  width:100%;padding:12px;margin:8px 0;
+  border-radius:12px;border:1px solid #ccc;
+}
+button{
+  width:100%;padding:14px;margin-top:10px;
+  border:none;border-radius:30px;
+  background:linear-gradient(90deg,#f5b041,#f39c12,#e74c3c);
+  color:#fff;font-weight:800;cursor:pointer;
+}
+small{color:#555;cursor:pointer}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+  <h2>H & Aur@</h2>
+  <p>Login / Register</p>
+
+  <input id="name" placeholder="Full Name (Register only)">
+  <input id="phone" placeholder="Mobile Number">
+  <input id="pass" type="password" placeholder="Password">
+
+  <button onclick="login()">Login</button>
+  <button onclick="register()">Register</button>
+  
+  <small style="
+display:block;
+margin-top:12px;
+color:#555;
+cursor:pointer;
+"
+onclick="openSupport()">
+Forgot Password? Contact Support
+</small>
+
+
+  <small onclick="location.href='index.html'">← Back to Home</small>
+</div>
+<script>
+function openSupport(){
+  alert(
+    "For security reasons, password reset is handled by support.\n\n" +
+    "Please contact us on WhatsApp:\n" +
+    "📱 8219383887"
+  );
+  window.open("https://wa.me/918219383887","_blank");
+}
+</script>
+
+<script src="assets/js/auth.js"></script>
+</body>
+</html>

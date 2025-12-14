@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Account – H & Aur@</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+  margin:0;
+  font-family:Segoe UI,Arial;
+  background:#fff7f5;
+  color:#111;
+}
+header{
+  background:#111;
+  color:#fff;
+  padding:16px 20px;
+}
+header h2{
+  margin:0;
+  background:linear-gradient(90deg,#f5b041,#f39c12,#e74c3c);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+header small{color:#f3b6c2}
+
+.box{
+  max-width:700px;
+  margin:40px auto;
+  background:#fff;
+  padding:30px;
+  border-radius:22px;
+  box-shadow:0 20px 40px rgba(0,0,0,.15);
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:14px 0;
+  font-size:15px;
+}
+.label{color:#555}
+.value{font-weight:700}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:20px;
+}
+.btn{
+  padding:12px 22px;
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+  font-weight:800;
+  background:linear-gradient(90deg,#f5b041,#f39c12,#e74c3c);
+  color:#fff;
+}
+.outline{
+  background:#fff;
+  color:#111;
+  border:1px solid #ddd;
+}
+
+.note{
+  margin-top:25px;
+  padding:16px;
+  background:#fff4f5;
+  border-radius:14px;
+  font-size:14px;
+}
+
+footer{
+  text-align:center;
+  padding:20px;
+  font-size:13px;
+  color:#555;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2>H & Aur@</h2>
+  <small>Where beauty meets aura....</small>
+</header>
+
+<div class="box">
+  <h3>My Account</h3>
+
+  <div class="row">
+    <div class="label">Name</div>
+    <div class="value" id="uName"></div>
+  </div>
+
+  <div class="row">
+    <div class="label">Mobile</div>
+    <div class="value" id="uPhone"></div>
+  </div>
+
+  <div class="row">
+    <div class="label">Status</div>
+    <div class="value">Logged in</div>
+  </div>
+
+  <div class="actions">
+    <button class="btn" onclick="location.href='shop.html'">Go to Shop</button>
+    <button class="btn outline" onclick="location.href='checkout.html'">Go to Checkout</button>
+    <button class="btn outline" onclick="logout()">Logout</button>
+  </div>
+
+  <div class="note">
+    📦 <b>Your Orders:</b><br>
+    Your recent orders will appear here.  
+    We are preparing your items with care 🌿
+  </div>
+</div>
+
+<footer>
+© 2025 H & Aur@ • All rights reserved
+</footer>
+
+<script src="assets/js/auth.js"></script>
+<script>
+loadAccount();
+</script>
+
+</body>
+</html>

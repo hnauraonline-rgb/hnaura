@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Orders – H & Aur@</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+  margin:0;
+  font-family:Segoe UI,Arial;
+  background:#fff7f5;
+  color:#111;
+}
+header{
+  background:#111;
+  color:#fff;
+  padding:16px 20px;
+}
+header h2{
+  margin:0;
+  background:linear-gradient(90deg,#f5b041,#f39c12,#e74c3c);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+header small{color:#f3b6c2}
+
+.box{
+  max-width:800px;
+  margin:40px auto;
+  background:#fff;
+  padding:30px;
+  border-radius:22px;
+  box-shadow:0 20px 40px rgba(0,0,0,.15);
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  margin:10px 0;
+}
+.label{color:#555}
+.value{font-weight:700}
+
+.order{
+  margin-top:20px;
+  padding:20px;
+  border-radius:16px;
+  background:#fff4f5;
+}
+.status{
+  display:inline-block;
+  padding:6px 14px;
+  border-radius:999px;
+  background:#ffeaa7;
+  font-weight:800;
+  font-size:13px;
+}
+
+.items{
+  margin-top:12px;
+  font-size:14px;
+}
+
+.actions{
+  display:flex;
+  gap:12px;
+  margin-top:20px;
+  flex-wrap:wrap;
+}
+.btn{
+  padding:12px 22px;
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+  font-weight:800;
+  background:linear-gradient(90deg,#f5b041,#f39c12,#e74c3c);
+  color:#fff;
+}
+.outline{
+  background:#fff;
+  color:#111;
+  border:1px solid #ddd;
+}
+
+.empty{
+  text-align:center;
+  padding:40px;
+  color:#777;
+}
+
+footer{
+  text-align:center;
+  padding:20px;
+  font-size:13px;
+  color:#555;
+}
+
+.whatsapp{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#25D366;
+  color:#fff;
+  padding:14px 18px;
+  border-radius:50px;
+  font-weight:800;
+  text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2>H & Aur@</h2>
+  <small>Where beauty meets aura....</small>
+</header>
+
+<div class="box">
+
+  <h3>My Orders</h3>
+
+  <div class="row">
+    <div class="label">Customer</div>
+    <div class="value" id="uName"></div>
+  </div>
+
+  <div class="row">
+    <div class="label">Mobile</div>
+    <div class="value" id="uPhone"></div>
+  </div>
+
+  <div id="orderBox"></div>
+
+  <div class="actions">
+    <button class="btn" onclick="location.href='shop.html'">Shop More</button>
+    <button class="btn outline" onclick="location.href='account.html'">My Account</button>
+  </div>
+
+</div>
+
+<footer>
+© 2025 H & Aur@ • Thank you for shopping with us 🌿
+</footer>
+
+<a class="whatsapp" href="https://wa.me/918219383887" target="_blank">
+WhatsApp Support
+</a>
+
+<script src="assets/js/auth.js"></script>
+<script>
+// 🔐 login required
+loadAccount();
+
+// 👤 user info
+const user = JSON.parse(localStorage.getItem("haura_user"));
+if(user){
+  uName.innerText = user.name;
+  uPhone.innerText = user.phone;
+}
+
+// 📦 last order (from checkout)
+const lastOrder = JSON.parse(localStorage.getItem("lastOrder"));
+
+if(!lastOrder){
+  orderBox.innerHTML = `
+    <div class="empty">
+      🛒 No orders found<br><br>
+      Place your first order with H & Aur@
+    </div>
+  `;
+} else {
+  orderBox.innerHTML = `
+    <div class="order">
+      <div class="status">Processing</div>
+      <p><b>Order ID:</b> #HA${Date.now().toString().slice(-6)}</p>
+      <p><b>Payment:</b> ${lastOrder.payment}</p>
+      <p><b>Total:</b> ₹${lastOrder.total}</p>
+
+      <div class="items">
+        <b>Items:</b><br>
+        ${lastOrder.items.join("<br>")}
+      </div>
+
+      <p style="margin-top:12px;font-size:13px;color:#555">
+        📦 Your order is being prepared and will be shipped soon.
+      </p>
+    </div>
+  `;
+}
+</script>
+
+</body>
+</html>
