@@ -4,7 +4,9 @@
 let cart = [];
 
 try {
-  cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const stored = localStorage.getItem("cart");
+  cart = stored ? JSON.parse(stored) : [];
+  if (!Array.isArray(cart)) cart = [];
 } catch (e) {
   cart = [];
 }
@@ -17,39 +19,33 @@ function saveCart() {
 }
 
 // ===============================
-// UPDATE CART COUNT
+// UPDATE CART COUNT (HEADER)
 // ===============================
 function updateCartCount() {
   const el = document.getElementById("cartCount");
   if (!el) return;
 
   let count = 0;
-  cart.forEach(item => {
-    count += item.qty;
-  });
-
-  el.innerText = count;
+  for (let i = 0; i < cart.length; i++) {
+    count += Number(cart[i].qty) || 0;
+  }
+  el.textContent = count;
 }
 
 // ===============================
-// ADD TO CART (MAIN FIX)
+// ADD TO CART (MOBILE + DESKTOP SAFE)
 // ===============================
 function addToCart(name, price) {
-  if (!name || !price) {
-    alert("Product data missing");
+  if (typeof name !== "string" || isNaN(price)) {
+    console.error("Invalid product data", name, price);
     return;
   }
 
-  let found = false;
+  let item = cart.find(p => p.name === name);
 
-  cart.forEach(item => {
-    if (item.name === name) {
-      item.qty += 1;
-      found = true;
-    }
-  });
-
-  if (!found) {
+  if (item) {
+    item.qty = Number(item.qty) + 1;
+  } else {
     cart.push({
       name: name,
       price: Number(price),
@@ -60,19 +56,23 @@ function addToCart(name, price) {
   saveCart();
   updateCartCount();
 
-  alert("✅ " + name + " added to cart");
+  // ❌ alert mobile UX खराब करता है
+  // ✔️ silent add (better for mobile)
 }
 
 // ===============================
-// CHANGE QTY (+ / −)
+// CHANGE QUANTITY (+ / −)
 // ===============================
 function changeQty(name, delta) {
-  cart = cart.map(item => {
-    if (item.name === name) {
-      item.qty += delta;
+  for (let i = 0; i < cart.length; i++) {
+    if (cart[i].name === name) {
+      cart[i].qty = Number(cart[i].qty) + delta;
+      if (cart[i].qty <= 0) {
+        cart.splice(i, 1);
+      }
+      break;
     }
-    return item;
-  }).filter(item => item.qty > 0);
+  }
 
   saveCart();
   updateCartCount();
@@ -87,15 +87,15 @@ function changeQty(name, delta) {
 // ===============================
 function getSubtotal() {
   let total = 0;
-  cart.forEach(item => {
-    total += item.price * item.qty;
-  });
+  for (let i = 0; i < cart.length; i++) {
+    total += Number(cart[i].price) * Number(cart[i].qty);
+  }
   return total;
 }
 
 // ===============================
-// ON LOAD
+// ON PAGE LOAD
 // ===============================
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
   updateCartCount();
 });
