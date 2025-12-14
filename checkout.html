@@ -170,18 +170,35 @@ function placeOrder(){
  fetch(FORM_URL,{method:"POST",mode:"no-cors",body:fd});
 
  // UPI FLOW
- if(payment==="UPI"){
-   const upiUrl=`upi://pay?pa=${UPI_ID}&pn=H%20%26%20Aur@&am=${total}&cu=INR`;
-   window.location.href=upiUrl;
+ if (payment === "UPI") {
 
-   // QR FALLBACK (after 3 sec)
-   setTimeout(()=>{
-     document.getElementById("qrImg").src=
-     `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(upiUrl)}`;
-     document.getElementById("qrModal").style.display="block";
-   },3000);
-   return;
- }
+  const upiUrl =
+    `upi://pay?pa=${UPI_ID}` +
+    `&pn=H%20%26%20Aur@` +
+    `&am=${total}` +
+    `&cu=INR` +
+    `&tn=Order%20Payment`;
+
+  /* 🔥 PRIMARY: HARD REDIRECT (USER GESTURE SAFE) */
+  window.location.assign(upiUrl);
+
+  /* 🔁 SECONDARY: ANDROID INTENT FALLBACK */
+  setTimeout(() => {
+    const intentUrl =
+      `intent://pay?pa=${UPI_ID}` +
+      `&pn=H%20%26%20Aur@` +
+      `&am=${total}` +
+      `&cu=INR` +
+      `&tn=Order%20Payment` +
+      `#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;end`;
+
+    window.location.href = intentUrl;
+  }, 700);
+
+  /* ⛔ STOP COD / WHATSAPP FLOW */
+  return;
+}
+
 
  // COD
  alert("Order placed (COD)");
