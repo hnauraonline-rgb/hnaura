@@ -1,134 +1,230 @@
-/* =====================
-   H&Aur@ BRAND THEME
-   ===================== */
+/* ===============================
+   GLOBAL THEME – H & Aur@
+=============================== */
 
-:root {
-  --primary: #c2183f;
-  --dark: #111;
-  --light: #fff7f5;
-  --grey: #666;
-  --radius: 12px;
+:root{
+  --brand-red:#b11226;        /* premium deep red */
+  --brand-red-soft:#fff1f3;   /* light red tint (white replacement) */
+  --brand-gold:#f5b041;
+  --dark:#111;
+  --text:#111;
 }
 
-* {
-  box-sizing: border-box;
+*{
+  box-sizing:border-box;
 }
 
-body {
-  margin: 0;
-  font-family: "Segoe UI", Arial, sans-serif;
-  background: var(--light);
-  color: var(--dark);
-  line-height: 1.6;
+body{
+  margin:0;
+  font-family:"Segoe UI",Arial,sans-serif;
+  background:#fff7f5;
+  color:var(--text);
 }
 
-/* ===== HEADER ===== */
-header {
-  background: var(--dark);
-  color: #fff;
-  padding: 15px 20px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+/* ===============================
+   HEADERS & NAV
+=============================== */
+
+header{
+  background:var(--dark);
+  color:#fff;
 }
 
-header strong {
-  font-size: 22px;
-  letter-spacing: 1px;
+header h2,
+.brand h2{
+  margin:0;
+  background:linear-gradient(90deg,var(--brand-gold),#f39c12,#e74c3c);
+  -webkit-background-clip:text;
+  color:transparent;
 }
 
-header nav {
-  margin-top: 8px;
+header small{
+  color:#f3b6c2;
 }
 
-header nav a {
-  color: #fff;
-  margin-right: 15px;
-  text-decoration: none;
-  font-weight: 600;
+/* ===============================
+   BUTTONS
+=============================== */
+
+button,
+.btn{
+  cursor:pointer;
+  border:none;
+  border-radius:999px;
+  font-weight:700;
+  transition:.3s;
 }
 
-header nav a:hover {
-  color: var(--primary);
+.btn-primary,
+.add,
+button.primary{
+  background:linear-gradient(90deg,var(--brand-gold),#f39c12,#e74c3c);
+  color:#fff;
 }
 
-/* ===== SECTIONS ===== */
-.section {
-  max-width: 1100px;
-  margin: auto;
-  padding: 50px 20px;
+.btn-outline{
+  background:#fff;
+  border:1px solid #ddd;
 }
 
-h1 {
-  font-size: 36px;
-  margin-bottom: 10px;
+button:hover,
+.btn:hover{
+  transform:translateY(-1px);
+  opacity:.95;
 }
 
-h2 {
-  font-size: 26px;
-  margin-bottom: 10px;
+/* ===============================
+   PRODUCT CARDS
+=============================== */
+
+.product,
+.card{
+  background:var(--brand-red-soft); /* 👈 WHITE REPLACED */
+  border-radius:22px;
+  padding:18px;
+  box-shadow:0 12px 30px rgba(0,0,0,.08);
+  border:1px solid rgba(0,0,0,.05);
+  transition:.3s;
 }
 
-h3 {
-  font-weight: 500;
-  color: var(--grey);
+.product:hover,
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 18px 36px rgba(0,0,0,.12);
 }
 
-/* ===== BUTTON ===== */
-.btn {
-  display: inline-block;
-  padding: 12px 26px;
-  background: var(--primary);
-  color: #fff;
-  border-radius: 30px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: 0.3s;
+.product h3,
+.card h3{
+  color:#000;
+  font-weight:800;
 }
 
-.btn:hover {
-  background: #a51533;
+.price{
+  font-size:18px;
+  font-weight:800;
 }
 
-/* ===== PRODUCT LIST ===== */
-ul {
-  padding-left: 18px;
+.price span,
+.cut{
+  font-size:13px;
+  text-decoration:line-through;
+  color:#777;
 }
 
-ul li {
-  margin-bottom: 10px;
+/* ===============================
+   BADGES / TAGS
+=============================== */
+
+.badge,
+.tag{
+  background:linear-gradient(90deg,#e74c3c,#b11226);
+  color:#fff;
+  padding:4px 12px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:700;
 }
 
-/* ===== CONTACT ===== */
-.contact-box {
-  background: #fff;
-  padding: 25px;
-  border-radius: var(--radius);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-  max-width: 500px;
+.offer{
+  background:#b11226;
+  color:#fff;
+  padding:4px 10px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:800;
 }
 
-/* ===== FOOTER ===== */
-footer {
-  background: var(--dark);
-  color: #fff;
-  text-align: center;
-  padding: 20px;
-  font-size: 14px;
+/* ===============================
+   CART BUTTON
+=============================== */
+
+.cart,
+.cart-btn{
+  background:linear-gradient(90deg,#e74c3c,#b11226);
+  color:#fff;
+  border-radius:999px;
+  font-weight:800;
 }
 
-footer a {
-  color: #fff;
-  margin: 0 8px;
-  text-decoration: none;
+/* ===============================
+   INPUTS / FORMS
+=============================== */
+
+input,
+textarea,
+select{
+  width:100%;
+  padding:12px 14px;
+  border-radius:14px;
+  border:1px solid #ccc;
+  font-family:inherit;
 }
 
-footer a:hover {
-  color: var(--primary);
+input:focus,
+textarea:focus{
+  outline:none;
+  border-color:#e74c3c;
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 600px) {
-  h1 { font-size: 28px; }
-  header nav a { display: inline-block; margin: 5px; }
+/* ===============================
+   SECTIONS / BOXES
+=============================== */
+
+.section,
+.box,
+.card-soft{
+  background:#fff;
+  border-radius:22px;
+  padding:30px;
+}
+
+/* ===============================
+   MODALS
+=============================== */
+
+#modal,
+.modal{
+  background:rgba(0,0,0,.6);
+}
+
+#modalBox,
+.modal-box{
+  background:var(--brand-red-soft);
+  border-radius:22px;
+}
+
+/* ===============================
+   WHATSAPP BUTTON
+=============================== */
+
+.whatsapp{
+  background:#25D366;
+  color:#fff;
+  border-radius:999px;
+  font-weight:800;
+}
+
+/* ===============================
+   FOOTER
+=============================== */
+
+footer{
+  background:#111;
+  color:#fff;
+}
+
+footer a{
+  color:#fff;
+  text-decoration:none;
+}
+
+/* ===============================
+   RESPONSIVE
+=============================== */
+
+@media(max-width:768px){
+  header nav a{
+    margin:0 6px;
+    font-size:14px;
+  }
 }
