@@ -2,131 +2,234 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Checkout – H&Aur@</title>
+<title>Checkout – H & Aur@</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="style.css">
 
 <style>
-.checkout-box{
-  max-width:600px;
-  margin:auto;
-  background:#fff;
-  padding:25px;
-  border-radius:12px;
-  box-shadow:0 8px 25px rgba(0,0,0,0.1);
+:root{
+  --grad: linear-gradient(90deg,#f5b041,#f39c12,#e74c3c);
+  --soft: linear-gradient(180deg,#ffffff,#fff4f5);
+  --dark:#111;
 }
+*{box-sizing:border-box}
+body{margin:0;font-family:Segoe UI,Arial;background:#fff7f5;color:#111}
+header{background:#111;color:#fff;padding:15px 20px}
+.brand h2{margin:0;background:var(--grad);-webkit-background-clip:text;color:transparent}
+
+.wrap{max-width:1100px;margin:auto;padding:28px 20px}
+.grid{display:grid;gap:22px;grid-template-columns:1.1fr .9fr}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+
+.card{
+  background:var(--soft);
+  border-radius:22px;
+  padding:20px;
+  box-shadow:0 18px 40px rgba(0,0,0,.12);
+  border:1px solid rgba(0,0,0,.06);
+}
+.card h3{margin-top:0}
+
+.badge{
+  display:inline-block;padding:6px 14px;border-radius:999px;
+  background:#fff3cd;font-weight:700;font-size:13px;margin-bottom:10px;
+}
+
 input,textarea{
-  width:100%;
-  padding:10px;
-  margin-bottom:10px;
-  border-radius:8px;
-  border:1px solid #ccc;
+  width:100%;padding:14px;border-radius:14px;
+  border:1px solid #ddd;margin:8px 0;background:#fff;
 }
-.payment-option{
-  border:1px solid #ddd;
-  padding:15px;
-  border-radius:10px;
-  margin-bottom:15px;
-  cursor:pointer;
+
+.btn{
+  width:100%;padding:16px;border-radius:999px;border:none;
+  font-weight:900;cursor:pointer;background:var(--grad);color:#fff;
+  box-shadow:0 10px 22px rgba(0,0,0,.25);
 }
-.payment-option:hover{
-  border-color:#c2183f;
+
+.pay{display:flex;gap:10px;margin:10px 0}
+.pay button{
+  flex:1;padding:14px;border-radius:999px;border:1px solid #ddd;
+  background:#fff;font-weight:800;cursor:pointer;
 }
-.upi-box{
-  display:none;
-  background:#fff7f5;
-  padding:15px;
-  border-radius:10px;
+.pay button.active{background:var(--grad);color:#fff;border:none}
+
+.item{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:10px;
+  align-items:center;
+  margin:8px 0;
+  font-size:14px;
 }
+.qty{
+  display:flex;align-items:center;gap:8px;
+}
+.qty button{
+  width:28px;height:28px;border-radius:50%;
+  border:none;background:var(--grad);
+  color:#fff;font-weight:900;cursor:pointer;
+}
+
+.summary p{margin:6px 0}
+.total{font-size:18px;font-weight:900}
+.line{height:1px;background:#eee;margin:10px 0}
+.sticky{position:sticky;top:20px}
+
+.whatsapp{
+  position:fixed;right:20px;bottom:20px;
+  background:#25D366;color:#fff;padding:14px 18px;
+  border-radius:999px;font-weight:900;
+}
+.error{color:#c0392b;font-size:13px}
 </style>
 </head>
 
 <body>
 
 <header>
-<strong>H&Aur@</strong> – Where beauty meets aur@
-<nav>
-<a href="index.html">Home</a>
-<a href="shop.html">Shop</a>
-<a href="contact.html">Contact</a>
-</nav>
+  <div style="max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center">
+    <div>
+      <strong>H & Aur@</strong><br>
+      <small style="color:#f3b6c2">Where beauty meets aura....</small>
+    </div>
+    <nav>
+      <a href="index.html" style="color:#fff;margin:0 10px;text-decoration:none;">Home</a>
+      <a href="shop.html" style="color:#fff;margin:0 10px;text-decoration:none;">Shop</a>
+      <a href="contact.html" style="color:#fff;margin:0 10px;text-decoration:none;">Contact</a>
+      <a href="login.html" style="color:#fff;margin:0 10px;text-decoration:none;">Login</a>
+    </nav>
+  </div>
 </header>
 
-<div class="section">
-<h1>Checkout</h1>
+<div class="wrap">
+  <div class="grid">
 
-<div class="checkout-box">
+    <!-- LEFT -->
+    <div class="card">
+      <span class="badge">🎉 Free Shipping on orders above ₹999</span>
+      <h3>Shipping Details</h3>
 
-<h3>Customer Details</h3>
-<input id="name" placeholder="Full Name">
-<input id="phone" placeholder="Mobile / WhatsApp Number">
-<textarea id="address" placeholder="Full Delivery Address"></textarea>
+      <input id="name" placeholder="Full Name *">
+      <input id="phone" placeholder="Mobile Number *">
+      <textarea id="address" placeholder="Full Address *"></textarea>
+      <div id="err" class="error"></div>
 
-<h3>Select Payment Method</h3>
+      <h3>Payment Method</h3>
+      <div class="pay">
+        <button id="codBtn" onclick="setPay('COD')">Cash on Delivery</button>
+        <button id="upiBtn" onclick="setPay('UPI')">UPI</button>
+      </div>
 
-<div class="payment-option" onclick="selectPayment('cod')">
-<strong>Cash on Delivery (COD)</strong><br>
-Pay when product is delivered.
+      <button class="btn" onclick="placeOrder()">Place Order</button>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="card sticky">
+      <h3>Your Order</h3>
+      <div id="items"></div>
+      <div class="line"></div>
+      <div class="summary">
+        <p>Subtotal: ₹<span id="sub">0</span></p>
+        <p>Shipping: ₹<span id="ship">0</span></p>
+        <p class="total">Total: ₹<span id="tot">0</span></p>
+      </div>
+    </div>
+
+  </div>
 </div>
 
-<div class="payment-option" onclick="selectPayment('upi')">
-<strong>UPI Payment</strong><br>
-Google Pay / PhonePe / Paytm
-</div>
-
-<div class="upi-box" id="upiBox">
-<p><strong>Pay to UPI ID:</strong></p>
-<h3>adityadhiman7876-1@oksbi</h3>
-<p>After payment, click “I Have Paid”.</p>
-<button class="btn" onclick="upiPaid()">I Have Paid</button>
-</div>
-
-<button class="btn" style="width:100%;" onclick="placeOrder()">Place Order</button>
-
-</div>
-</div>
-
-<footer>
-<a href="shipping.html">Shipping</a> |
-<a href="terms.html">Terms</a> |
-<a href="privacy.html">Privacy</a>
-</footer>
+<a class="whatsapp" href="https://wa.me/918219383887" target="_blank">WhatsApp</a>
 
 <script>
-let selectedPayment="";
+const FORM_URL="https://docs.google.com/forms/d/e/1FAIpQLScVJ6GvrDCOWJN5ykJ-Zzoi9F2BWAT6M5JXJCwryCOScb8WkA/formResponse";
+const UPI_ID="adityadhiman7876-1@oksbi";
 
-function selectPayment(type){
-  selectedPayment=type;
-  document.getElementById("upiBox").style.display=
-    type==="upi"?"block":"none";
+// 🔧 DOM BINDINGS (IMPORTANT FIX)
+const items = document.getElementById("items");
+const sub = document.getElementById("sub");
+const ship = document.getElementById("ship");
+const tot = document.getElementById("tot");
+const err = document.getElementById("err");
+const name = document.getElementById("name");
+const phone = document.getElementById("phone");
+const address = document.getElementById("address");
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let payment = "";
+
+function save(){ localStorage.setItem("cart",JSON.stringify(cart)) }
+
+function render(){
+  let s=0, html="";
+  cart.forEach((p,i)=>{
+    s+=p.price*p.qty;
+    html+=`
+      <div class="item">
+        <div><b>${p.name}</b><br>₹${p.price} × ${p.qty}</div>
+        <div class="qty">
+          <button onclick="chg(${i},-1)">−</button>
+          <span>${p.qty}</span>
+          <button onclick="chg(${i},1)">+</button>
+        </div>
+      </div>`;
+  });
+  items.innerHTML = html || "<p>Your cart is empty</p>";
+  let shipping = s>=999?0:79;
+  sub.textContent = s;
+  ship.textContent = shipping;
+  tot.textContent = s + shipping;
+}
+render();
+
+function chg(i,v){
+  cart[i].qty += v;
+  if(cart[i].qty<=0) cart.splice(i,1);
+  save(); render();
+}
+
+function setPay(p){
+  payment = p;
+  codBtn.classList.toggle("active",p==="COD");
+  upiBtn.classList.toggle("active",p==="UPI");
 }
 
 function placeOrder(){
-  const name=document.getElementById("name").value.trim();
-  const phone=document.getElementById("phone").value.trim();
-  const address=document.getElementById("address").value.trim();
+  err.textContent="";
+  if(!cart.length){err.textContent="Cart is empty";return}
+  if(!name.value||!phone.value||!address.value||!payment){
+    err.textContent="Please fill all required fields";return;
+  }
+  if(phone.value.length<10){err.textContent="Enter valid phone number";return}
 
-  if(!name||!phone||!address||!selectedPayment){
-    alert("Please fill all details & select payment method");
-    return;
+  let order=cart.map(p=>`${p.name} x ${p.qty}`).join(", ");
+  let total=+tot.textContent;
+
+  let fd=new FormData();
+  fd.append("entry.1324507124",name.value);
+  fd.append("entry.618528662",phone.value);
+  fd.append("entry.1549317860",address.value);
+  fd.append("entry.611339007",payment);
+  fetch(FORM_URL,{method:"POST",mode:"no-cors",body:fd});
+
+  localStorage.setItem("lastOrder", JSON.stringify({
+    items: cart.map(p=>`${p.name} × ${p.qty}`),
+    total, payment,
+    name:name.value, phone:phone.value, address:address.value,
+    date:new Date().toLocaleString()
+  }));
+
+  if(payment==="UPI"){
+    location.href=`upi://pay?pa=${UPI_ID}&pn=H%20%26%20Aur@&am=${total}&cu=INR`;
   }
 
-  let msg=
-`New Order – H&Aur@
-Name: ${name}
-Phone: ${phone}
-Address: ${address}
-Payment: ${selectedPayment.toUpperCase()}
-`;
-
-  window.open(
-    "https://wa.me/918219383887?text="+encodeURIComponent(msg),
-    "_blank"
-  );
-}
-
-function upiPaid(){
-  alert("Payment marked as done. Please place order.");
+  setTimeout(()=>{
+    window.open(
+      "https://wa.me/918219383887?text="+
+      encodeURIComponent(`New Order – H & Aur@\n${order}\nTotal: ₹${total}\nPayment: ${payment}`)
+    );
+    localStorage.removeItem("cart");
+    alert("Order placed successfully");
+    location.href="index.html";
+  },1200);
 }
 </script>
 
