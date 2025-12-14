@@ -2,83 +2,173 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Shop – H&Aur@</title>
+<title>Shop – H & Aur@</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="style.css">
 
 <style>
-/* SHOP EXTRA STYLE */
-.products-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-  gap:20px;
+:root{
+  --grad: linear-gradient(90deg,#f5b041,#f39c12,#e74c3c);
+  --dark:#111;
 }
-.product-card{
-  background:#fff;
-  padding:15px;
-  border-radius:12px;
-  box-shadow:0 6px 20px rgba(0,0,0,0.08);
-  display:flex;
-  flex-direction:column;
-}
-.product-card img{
-  width:100%;
-  border-radius:10px;
-}
-.product-card h4{
-  margin:10px 0 5px;
-}
-.product-card p{
-  font-size:14px;
-  color:#555;
-}
-.price{
-  font-weight:700;
-  margin:6px 0;
-}
-.cart-btn{
-  margin-top:auto;
-  background:#c2183f;
+body{margin:0;font-family:Segoe UI,Arial;background:#fff7f5}
+a{text-decoration:none;color:inherit}
+
+/* HEADER */
+header{
+  background:var(--dark);
   color:#fff;
-  border:none;
-  padding:10px;
-  border-radius:20px;
+  padding:15px 20px;
+  position:sticky;top:0;z-index:999;
+}
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.brand h2{
+  margin:0;
+  background:var(--grad);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+nav a{margin:0 10px;font-weight:600;color:#fff}
+.cart-btn{
+  background:var(--grad);
+  padding:8px 16px;
+  border-radius:30px;
+  font-weight:800;
   cursor:pointer;
 }
-.cart-btn:hover{
-  background:#a51533;
+
+/* SEARCH */
+.search{max-width:420px;margin:25px auto}
+.search input{
+  width:100%;
+  padding:14px;
+  border-radius:30px;
+  border:1px solid #ccc;
 }
 
-/* CART */
-.cart-panel{
-  position:fixed;
-  right:0;
-  top:0;
-  width:320px;
-  height:100%;
-  background:#fff;
-  box-shadow:-4px 0 20px rgba(0,0,0,0.2);
-  display:none;
-  flex-direction:column;
-  z-index:200;
+/* GRID */
+.section{max-width:1200px;margin:auto;padding:40px 20px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:30px;
 }
-.cart-panel h3{
-  background:#111;
+
+/* CARD (ONLY WHITE AREA TINTED) */
+.card{
+  background:#fff4f5;
+  padding:18px;
+  border-radius:22px;
+  border:1px solid rgba(0,0,0,0.06);
+  box-shadow:0 12px 30px rgba(0,0,0,0.08);
+  text-align:center;
+  position:relative;
+  transition:.3s;
+}
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 16px 36px rgba(0,0,0,0.12);
+}
+
+/* TAGS */
+.tag{
+  position:absolute;
+  top:12px;
+  left:12px;
+  background:var(--grad);
   color:#fff;
-  padding:15px;
-  margin:0;
+  font-size:12px;
+  padding:4px 12px;
+  border-radius:20px;
+  font-weight:700;
 }
-.cart-items{
-  flex:1;
-  padding:15px;
-  overflow:auto;
+.offer{
+  position:absolute;
+  top:12px;
+  right:12px;
+  background:#c0392b;
+  color:#fff;
+  font-size:11px;
+  padding:4px 10px;
+  border-radius:20px;
+  font-weight:800;
 }
-.cart-items p{
-  font-size:14px;
-  margin-bottom:8px;
+
+.card img{
+  width:100%;
+  height:190px;
+  object-fit:contain;
+  cursor:pointer;
+  background:#fff4f5;
+  border-radius:14px;
 }
-.cart-panel button{
-  margin:10px;
+
+.card h3{color:#000;font-weight:800}
+.price{color:#000;font-size:18px;font-weight:800}
+.cut{font-size:13px;text-decoration:line-through;color:#777}
+
+/* QTY */
+.qty{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  margin:10px 0;
+}
+.qty button{
+  width:32px;height:32px;
+  border:none;border-radius:50%;
+  background:var(--grad);
+  color:#fff;font-weight:900;cursor:pointer;
+}
+
+/* BUTTONS */
+.btn{
+  padding:10px 22px;
+  border-radius:30px;
+  border:none;
+  cursor:pointer;
+  font-weight:800;
+}
+.add{background:var(--grad);color:#fff}
+.view{background:#eee}
+.disabled{background:#ccc;cursor:not-allowed}
+
+/* MODAL */
+#modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  z-index:9999;
+}
+#modalBox{
+  background:#fff;
+  max-width:420px;
+  margin:60px auto;
+  padding:25px;
+  border-radius:20px;
+  text-align:center;
+  position:relative;
+}
+#close{
+  position:absolute;
+  top:10px;right:15px;
+  cursor:pointer;font-size:20px;
+}
+
+/* WHATSAPP */
+.whatsapp{
+  position:fixed;
+  bottom:20px;right:20px;
+  background:#25D366;
+  color:#fff;
+  padding:14px 18px;
+  border-radius:50px;
+  font-weight:800;
 }
 </style>
 </head>
@@ -86,90 +176,187 @@
 <body>
 
 <header>
-<strong>H&Aur@</strong> – Where beauty meets aur@
-<nav>
-<a href="index.html">Home</a>
-<a href="shop.html">Shop</a>
-<a href="about.html">About</a>
-<a href="contact.html">Contact</a>
-</nav>
+  <div class="top">
+    <div class="brand">
+      <h2>H & Aur@</h2>
+      <small>Where beauty meets aura....</small>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="contact.html">Contact</a>
+      <a href="login.html">Login</a>
+    </nav>
+    <div class="cart-btn" onclick="location.href='checkout.html'">
+      🛒 Cart (<span id="cartCount">0</span>)
+    </div>
+  </div>
 </header>
 
-<div class="section">
-<h1>Shop Multani Mitti</h1>
-<p>
-Discover pure, natural Multani Mitti products for face, hair and body care.
-</p>
-
-<div class="products-grid" id="products"></div>
+<div class="search">
+  <input type="text" placeholder="Search products..." onkeyup="filterProducts(this.value)">
 </div>
 
-<!-- CART -->
-<div class="cart-panel" id="cart">
-<h3>Your Bag</h3>
-<div class="cart-items" id="cartItems"></div>
-<button class="btn" onclick="checkout()">Checkout</button>
-<button class="btn" onclick="toggleCart()">Close</button>
-</div>
-
-<footer>
-<a href="shipping.html">Shipping</a> |
-<a href="terms.html">Terms</a> |
-<a href="privacy.html">Privacy</a>
-</footer>
+<section class="section">
+<div class="grid">
 
 <script>
 const products=[
-{id:1,name:"Multani Mitti 100g",price:79,desc:"Trial & travel pack",img:"https://via.placeholder.com/300"},
-{id:2,name:"Multani Mitti 250g",price:199,desc:"Face care use",img:"https://via.placeholder.com/300"},
-{id:3,name:"Multani Mitti 500g",price:249,desc:"Best seller",img:"https://via.placeholder.com/300"},
-{id:4,name:"Multani Mitti 1kg",price:449,desc:"Family & salon pack",img:"https://via.placeholder.com/300"}
+ {n:"Multani Mitti – 100g",p:79,mrp:199,img:"assets/images/product-100g.png",tag:"Starter Pack"},
+ {n:"Multani Mitti – 250g",p:199,mrp:499,img:"assets/images/product-250g.png",tag:"Limited Stock"},
+ {n:"Multani Mitti – 500g",p:249,mrp:699,img:"assets/images/product-500g.png",tag:"Bestseller"},
+ {n:"Multani Mitti – 1kg",p:449,mrp:1099,img:"assets/images/product-1kg.png",tag:""},
+ {n:"Multani Mitti – 5kg",p:1399,mrp:3499,img:"assets/images/product-5kg.png",tag:""}
 ];
 
-const cart=[];
-const productDiv=document.getElementById("products");
+products.forEach(pr=>{
+document.write(`
+<div class="card" data-name="${pr.n.toLowerCase()}">
+  ${pr.tag?`<span class="tag">${pr.tag}</span>`:""}
+  <span class="offer">60% OFF</span>
 
-products.forEach(p=>{
-  const d=document.createElement("div");
-  d.className="product-card";
-  d.innerHTML=`
-    <img src="${p.img}">
-    <h4>${p.name}</h4>
-    <p>${p.desc}</p>
-    <div class="price">₹${p.price}</div>
-    <button class="cart-btn" onclick="addToCart(${p.id})">Add to Bag</button>
-  `;
-  productDiv.appendChild(d);
+  <img src="${pr.img}" onclick="openModal('${pr.n}',${pr.p},'${pr.img}')">
+
+  <h3>${pr.n}</h3>
+
+  <div class="price">₹${pr.p} <span class="cut">₹${pr.mrp}</span></div>
+  <small>🎁 Buy 2 Get 1 Free</small>
+
+  <div class="qty">
+    <button onclick="chg(this,-1)">−</button>
+    <span>1</span>
+    <button onclick="chg(this,1)">+</button>
+  </div>
+
+  <button class="btn add" onclick="addFrom(this,'${pr.n}',${pr.p})">Add to Cart</button>
+  <button class="btn view" onclick="openModal('${pr.n}',${pr.p},'${pr.img}')">View</button>
+</div>
+`);
 });
+</script>
 
-function addToCart(id){
-  const item=products.find(p=>p.id===id);
-  cart.push(item);
-  renderCart();
-  toggleCart();
+</div>
+<!-- ============================= -->
+<!-- 🚀 COMING SOON / FUTURE PRODUCTS (ADD ONLY) -->
+<!-- ============================= -->
+
+<h2 style="
+text-align:center;
+margin:40px 0 20px;
+font-weight:900;
+background:linear-gradient(90deg,#f5b041,#f39c12,#e74c3c);
+-webkit-background-clip:text;
+color:transparent;
+">
+🚀 Coming Soon
+</h2>
+
+<div class="grid">
+
+  <div class="card">
+    <span class="tag">Coming Soon</span>
+    <img src="assets/images/coming-soon.png">
+    <h3>Multani Mitti + Rose Water</h3>
+    <div class="price">Launching Soon</div>
+    <small>Glow & hydration combo</small><br><br>
+    <button class="btn" onclick="notifyMe('Multani Mitti + Rose Water')">
+  Notify Me
+</button>
+
+  </div>
+
+  <div class="card">
+    <span class="tag">Coming Soon</span>
+    <img src="assets/images/coming-soon.png">
+    <h3>Herbal Face Pack</h3>
+    <div class="price">Launching Soon</div>
+    <small>Ayurvedic skin care</small><br><br>
+    <button class="btn" onclick="notifyMe('Multani Mitti + Rose Water')">
+  Notify Me
+</button>
+
+  </div>
+
+  <div class="card">
+    <span class="tag">Coming Soon</span>
+    <img src="assets/images/coming-soon.png">
+    <h3>Hair Care Clay Mask</h3>
+    <div class="price">Launching Soon</div>
+    <small>Hair strength & shine</small><br><br>
+    <button class="btn" onclick="notifyMe('Multani Mitti + Rose Water')">
+  Notify Me
+</button>
+
+  </div>
+
+</div>
+
+<!-- ============================= -->
+<!-- 🚀 END COMING SOON SECTION -->
+<!-- ============================= -->
+
+</section>
+
+<div id="modal" onclick="closeModal()">
+  <div id="modalBox" onclick="event.stopPropagation()">
+    <div id="close" onclick="closeModal()">✖</div>
+    <img id="mImg" style="width:100%;height:220px;object-fit:contain">
+    <h3 id="mName"></h3>
+    <p id="mPrice"></p>
+    <p>🔥 Flat 60% OFF<br>🎁 Buy 2 Get 1 Free<br><br>
+    ✔ 100% Natural Multani Mitti<br>
+    ✔ Face • Hair • Body</p>
+    <button class="btn add" onclick="addToCart(cur.n,cur.p)">Add to Cart</button>
+  </div>
+</div>
+
+<a class="whatsapp" href="https://wa.me/918219383887" target="_blank">WhatsApp</a>
+
+<script>
+let cur={};
+
+function chg(b,v){
+ let s=b.parentElement.querySelector("span");
+ s.innerText=Math.max(1,parseInt(s.innerText)+v);
 }
-
-function renderCart(){
-  const c=document.getElementById("cartItems");
-  c.innerHTML="";
-  cart.forEach(i=>{
-    c.innerHTML+=`<p>${i.name} – ₹${i.price}</p>`;
-  });
+function addFrom(b,n,p){
+ let q=parseInt(b.parentElement.querySelector(".qty span").innerText);
+ for(let i=0;i<q;i++) addToCart(n,p);
 }
-
-function toggleCart(){
-  const cartBox=document.getElementById("cart");
-  cartBox.style.display=cartBox.style.display==="flex"?"none":"flex";
+function openModal(n,p,i){
+ cur={n,p};
+ mImg.src=i;
+ mName.innerText=n;
+ mPrice.innerText="₹"+p;
+ modal.style.display="block";
 }
-
-function checkout(){
-  let total=cart.reduce((s,i)=>s+i.price,0);
-  let msg="Order from H&Aur@%0A";
-  cart.forEach(i=>msg+=`${i.name} - ₹${i.price}%0A`);
-  msg+=`Total: ₹${total}%0A%0APayment: COD / UPI`;
-  window.location.href="checkout.html";
+function closeModal(){modal.style.display="none"}
+function filterProducts(q){
+ q=q.toLowerCase();
+ document.querySelectorAll(".card").forEach(c=>{
+  c.style.display=c.dataset.name.includes(q)?"block":"none";
+ });
 }
 </script>
+
+<script src="assets/js/cart.js"></script>
+<script>
+function notifyMe(product){
+  const msg = 
+`Hi H & Aur@ 👋
+I am interested in your upcoming product:
+
+📦 ${product}
+
+Please notify me when it is available.`;
+
+  window.open(
+    "https://wa.me/918219383887?text=" + encodeURIComponent(msg),
+    "_blank"
+  );
+}
+</script>
+
 
 </body>
 </html>
