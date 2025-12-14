@@ -14,8 +14,6 @@
 *{box-sizing:border-box}
 body{margin:0;font-family:Segoe UI,Arial;background:#fff7f5;color:#111}
 header{background:#111;color:#fff;padding:15px 20px}
-.brand h2{margin:0;background:var(--grad);-webkit-background-clip:text;color:transparent}
-
 .wrap{max-width:1100px;margin:auto;padding:28px 20px}
 .grid{display:grid;gap:22px;grid-template-columns:1.1fr .9fr}
 @media(max-width:900px){.grid{grid-template-columns:1fr}}
@@ -27,59 +25,43 @@ header{background:#111;color:#fff;padding:15px 20px}
   box-shadow:0 18px 40px rgba(0,0,0,.12);
   border:1px solid rgba(0,0,0,.06);
 }
-.card h3{margin-top:0}
-
 .badge{
   display:inline-block;padding:6px 14px;border-radius:999px;
   background:#fff3cd;font-weight:700;font-size:13px;margin-bottom:10px;
 }
-
 input,textarea{
   width:100%;padding:14px;border-radius:14px;
   border:1px solid #ddd;margin:8px 0;background:#fff;
 }
-
 .btn{
   width:100%;padding:16px;border-radius:999px;border:none;
   font-weight:900;cursor:pointer;background:var(--grad);color:#fff;
-  box-shadow:0 10px 22px rgba(0,0,0,.25);
 }
-
 .pay{display:flex;gap:10px;margin:10px 0}
 .pay button{
   flex:1;padding:14px;border-radius:999px;border:1px solid #ddd;
   background:#fff;font-weight:800;cursor:pointer;
 }
 .pay button.active{background:var(--grad);color:#fff;border:none}
-
 .item{
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:10px;
-  align-items:center;
-  margin:8px 0;
-  font-size:14px;
+  display:grid;grid-template-columns:1fr auto;gap:10px;
+  align-items:center;margin:8px 0;font-size:14px;
 }
-.qty{
-  display:flex;align-items:center;gap:8px;
-}
+.qty{display:flex;align-items:center;gap:8px}
 .qty button{
   width:28px;height:28px;border-radius:50%;
-  border:none;background:var(--grad);
-  color:#fff;font-weight:900;cursor:pointer;
+  border:none;background:var(--grad);color:#fff;font-weight:900;
 }
-
 .summary p{margin:6px 0}
 .total{font-size:18px;font-weight:900}
 .line{height:1px;background:#eee;margin:10px 0}
 .sticky{position:sticky;top:20px}
-
+.error{color:#c0392b;font-size:13px}
 .whatsapp{
   position:fixed;right:20px;bottom:20px;
   background:#25D366;color:#fff;padding:14px 18px;
   border-radius:999px;font-weight:900;
 }
-.error{color:#c0392b;font-size:13px}
 </style>
 </head>
 
@@ -143,20 +125,21 @@ input,textarea{
 const FORM_URL="https://docs.google.com/forms/d/e/1FAIpQLScVJ6GvrDCOWJN5ykJ-Zzoi9F2BWAT6M5JXJCwryCOScb8WkA/formResponse";
 const UPI_ID="adityadhiman7876-1@oksbi";
 
-// 🔧 DOM BINDINGS (IMPORTANT FIX)
-const items = document.getElementById("items");
-const sub = document.getElementById("sub");
-const ship = document.getElementById("ship");
-const tot = document.getElementById("tot");
-const err = document.getElementById("err");
-const name = document.getElementById("name");
-const phone = document.getElementById("phone");
-const address = document.getElementById("address");
+const items=document.getElementById("items"),
+sub=document.getElementById("sub"),
+ship=document.getElementById("ship"),
+tot=document.getElementById("tot"),
+err=document.getElementById("err"),
+name=document.getElementById("name"),
+phone=document.getElementById("phone"),
+address=document.getElementById("address"),
+codBtn=document.getElementById("codBtn"),
+upiBtn=document.getElementById("upiBtn");
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-let payment = "";
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
+let payment="";
 
-function save(){ localStorage.setItem("cart",JSON.stringify(cart)) }
+function save(){localStorage.setItem("cart",JSON.stringify(cart))}
 
 function render(){
   let s=0, html="";
@@ -172,22 +155,22 @@ function render(){
         </div>
       </div>`;
   });
-  items.innerHTML = html || "<p>Your cart is empty</p>";
-  let shipping = s>=999?0:79;
-  sub.textContent = s;
-  ship.textContent = shipping;
-  tot.textContent = s + shipping;
+  items.innerHTML=html||"<p>Your cart is empty</p>";
+  let shipping=s>=999?0:79;
+  sub.textContent=s;
+  ship.textContent=shipping;
+  tot.textContent=s+shipping;
 }
 render();
 
 function chg(i,v){
-  cart[i].qty += v;
+  cart[i].qty+=v;
   if(cart[i].qty<=0) cart.splice(i,1);
-  save(); render();
+  save();render();
 }
 
 function setPay(p){
-  payment = p;
+  payment=p;
   codBtn.classList.toggle("active",p==="COD");
   upiBtn.classList.toggle("active",p==="UPI");
 }
@@ -210,21 +193,25 @@ function placeOrder(){
   fd.append("entry.611339007",payment);
   fetch(FORM_URL,{method:"POST",mode:"no-cors",body:fd});
 
-  localStorage.setItem("lastOrder", JSON.stringify({
-    items: cart.map(p=>`${p.name} × ${p.qty}`),
-    total, payment,
-    name:name.value, phone:phone.value, address:address.value,
+  localStorage.setItem("lastOrder",JSON.stringify({
+    items:cart.map(p=>`${p.name} × ${p.qty}`),
+    total,payment,
+    name:name.value,phone:phone.value,address:address.value,
     date:new Date().toLocaleString()
   }));
 
+  /* ✅ FINAL UPI FLOW */
   if(payment==="UPI"){
-    location.href=`upi://pay?pa=${UPI_ID}&pn=H%20%26%20Aur@&am=${total}&cu=INR`;
+    const upiUrl=`upi://pay?pa=${UPI_ID}&pn=H%20%26%20Aur@&am=${total}&cu=INR&tn=Order%20Payment`;
+    window.location.href=upiUrl;
+    return; // 🔥 VERY IMPORTANT
   }
 
+  /* ✅ COD ONLY */
   setTimeout(()=>{
     window.open(
       "https://wa.me/918219383887?text="+
-      encodeURIComponent(`New Order – H & Aur@\n${order}\nTotal: ₹${total}\nPayment: ${payment}`)
+      encodeURIComponent(`New Order – H & Aur@\n${order}\nTotal: ₹${total}\nPayment: COD`)
     );
     localStorage.removeItem("cart");
     alert("Order placed successfully");
