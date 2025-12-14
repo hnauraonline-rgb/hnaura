@@ -1,37 +1,168 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Contact Us – H&Aur@</title>
-<link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Contact Us – H & Aur@</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+  margin:0;
+  font-family:Segoe UI,Arial;
+  background:#fff7f5;
+  color:#111;
+}
+header{
+  background:#111;
+  color:#fff;
+  padding:16px 20px;
+}
+header h2{
+  margin:0;
+  background:linear-gradient(90deg,#f5b041,#f39c12,#e74c3c);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+header small{color:#f3b6c2}
+
+.box{
+  max-width:900px;
+  margin:40px auto;
+  background:#fff;
+  padding:30px;
+  border-radius:22px;
+  box-shadow:0 20px 40px rgba(0,0,0,.15);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:30px;
+}
+@media(max-width:800px){
+  .grid{grid-template-columns:1fr}
+}
+
+h3{margin-top:0}
+
+.info p{
+  margin:10px 0;
+  font-size:15px;
+}
+
+.info a{
+  color:#b11226;
+  text-decoration:none;
+  font-weight:700;
+}
+
+input,textarea{
+  width:100%;
+  padding:12px 14px;
+  border-radius:14px;
+  border:1px solid #ccc;
+  margin:8px 0;
+  font-family:inherit;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+  font-weight:800;
+  background:linear-gradient(90deg,#f5b041,#f39c12,#e74c3c);
+  color:#fff;
+  margin-top:10px;
+}
+
+.note{
+  margin-top:16px;
+  font-size:13px;
+  color:#555;
+}
+
+footer{
+  text-align:center;
+  padding:20px;
+  font-size:13px;
+  color:#555;
+}
+
+.whatsapp{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#25D366;
+  color:#fff;
+  padding:14px 18px;
+  border-radius:50px;
+  font-weight:800;
+  text-decoration:none;
+}
+</style>
 </head>
+
 <body>
 
 <header>
-<strong>H&Aur@</strong> – Where beauty meets aur@
-<nav>
-<a href="index.html">Home</a>
-<a href="shop.html">Shop</a>
-<a href="about.html">About</a>
-<a href="contact.html">Contact</a>
-</nav>
+  <h2>H & Aur@</h2>
+  <small>Where beauty meets aura....</small>
 </header>
 
-<div class="section">
-<h1>Contact Us</h1>
+<div class="box">
+  <h3>Contact Us</h3>
+  <p>We are here to help you 🌿  
+  Reach out to us anytime.</p>
 
-<p><strong>Phone / WhatsApp:</strong> 8219383887</p>
-<p><strong>Email:</strong> hnaura.online@gmail.com</p>
+  <div class="grid">
 
-<p>
-For product enquiries, bulk orders, wholesale or support,
-you can contact us via WhatsApp or email anytime.
-</p>
+    <!-- CONTACT INFO -->
+    <div class="info">
+      <p><b>📞 Phone / WhatsApp:</b><br>
+      <a href="https://wa.me/918219383887" target="_blank">+91 82193 83887</a></p>
+
+      <p><b>📧 Email:</b><br>
+      <a href="mailto:hnaura.online@gmail.com">hnaura.online@gmail.com</a></p>
+
+      <p><b>⏰ Support Hours:</b><br>
+      Mon – Sat (10 AM – 7 PM)</p>
+
+      <p><b>🔐 Security Note:</b><br>
+      For password reset & account help, please contact support directly.</p>
+    </div>
+
+    <!-- CONTACT FORM -->
+    <div>
+      <form 
+        action="https://docs.google.com/forms/d/e/1FAIpQLScVJ6GvrDCOWJN5ykJ-Zzoi9F2BWAT6M5JXJCwryCOScb8WkA/formResponse"
+        method="POST"
+        target="_blank"
+      >
+        <input type="text" name="entry.1324507124" placeholder="Your Name" required>
+        <input type="tel" name="entry.618528662" placeholder="Mobile Number" required>
+        <textarea name="entry.1549317860" rows="4" placeholder="Your Message" required></textarea>
+
+        <button type="submit">Send Message</button>
+      </form>
+
+      <div class="note">
+        Your message will be received by our support team.  
+        We usually reply within 24 hours.
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <footer>
-<a href="shipping.html">Shipping</a> |
-<a href="terms.html">Terms</a> |
-<a href="privacy.html">Privacy</a>
+© 2025 H & Aur@ • All rights reserved
 </footer>
+
+<a class="whatsapp" href="https://wa.me/918219383887" target="_blank">
+WhatsApp Support
+</a>
+
 </body>
 </html>
