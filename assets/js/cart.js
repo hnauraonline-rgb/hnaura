@@ -56,12 +56,12 @@ function addToCart(name, price) {
   saveCart();
   updateCartCount();
 
-  // ❌ alert mobile UX खराब करता है
-  // ✔️ silent add (better for mobile)
+  // ✅ Added to cart popup (toast)
+  showCartToast("✅ Added to Cart");
 }
 
 // ===============================
-// CHANGE QUANTITY (+ / −)
+// CHANGE QTY (+ / −)
 // ===============================
 function changeQty(name, delta) {
   for (let i = 0; i < cart.length; i++) {
@@ -99,3 +99,30 @@ function getSubtotal() {
 document.addEventListener("DOMContentLoaded", function () {
   updateCartCount();
 });
+
+// ===============================
+// ADD TO CART POPUP (TOAST)
+// ===============================
+function showCartToast(msg){
+  const toast = document.createElement("div");
+  toast.textContent = msg;
+
+  toast.style.position = "fixed";
+  toast.style.bottom = "24px";
+  toast.style.left = "50%";
+  toast.style.transform = "translateX(-50%)";
+  toast.style.background = "linear-gradient(90deg,#f5b041,#f39c12,#e74c3c)";
+  toast.style.color = "#fff";
+  toast.style.padding = "12px 22px";
+  toast.style.borderRadius = "999px";
+  toast.style.fontWeight = "800";
+  toast.style.fontSize = "14px";
+  toast.style.boxShadow = "0 10px 25px rgba(0,0,0,.25)";
+  toast.style.zIndex = "9999";
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.remove();
+  }, 1800);
+}
