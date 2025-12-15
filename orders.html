@@ -171,16 +171,27 @@ if(!lastOrder){
     </div>
   `;
 } else {
+
+  // ✅ SAFE ITEMS RENDER (FINAL FIX)
+  let itemsHtml = "";
+  if (Array.isArray(lastOrder.items)) {
+    itemsHtml = lastOrder.items.map(i => {
+      if (typeof i === "string") return i;
+      if (typeof i === "object") return `${i.name} × ${i.qty}`;
+      return "";
+    }).join("<br>");
+  }
+
   orderBox.innerHTML = `
     <div class="order">
-      <div class="status">Processing</div>
+      <div class="status">${lastOrder.payment === "UPI" ? "Paid" : "Processing"}</div>
       <p><b>Order ID:</b> #HA${Date.now().toString().slice(-6)}</p>
       <p><b>Payment:</b> ${lastOrder.payment}</p>
       <p><b>Total:</b> ₹${lastOrder.total}</p>
 
       <div class="items">
         <b>Items:</b><br>
-        ${lastOrder.items.join("<br>")}
+        ${itemsHtml}
       </div>
 
       <p style="margin-top:12px;font-size:13px;color:#555">
