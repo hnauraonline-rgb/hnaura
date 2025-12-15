@@ -41,24 +41,25 @@ input,textarea{
   background:#fff;font-weight:800;
 }
 .pay button.active{background:var(--grad);color:#fff;border:none}
-.item{display:grid;grid-template-columns:1fr auto;gap:10px;margin:8px 0}
-.qty button{
-  width:28px;height:28px;border-radius:50%;
-  border:none;background:var(--grad);color:#fff;font-weight:900;
-}
+.item{margin:6px 0}
 .total{font-size:18px;font-weight:900}
 .error{color:#c0392b;font-size:13px}
 
-/* QR MODAL */
-#qrModal{
-  display:none;position:fixed;inset:0;
-  background:rgba(0,0,0,.6);z-index:9999;
+/* UPI MODAL */
+#upiModal{
+  display:none;
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.6);
+  z-index:9999;
 }
-#qrBox{
-  background:#fff;max-width:360px;margin:80px auto;
-  padding:20px;border-radius:20px;text-align:center;
+#upiBox{
+  background:#fff;
+  max-width:360px;
+  margin:80px auto;
+  padding:20px;
+  border-radius:20px;
+  text-align:center;
 }
-#qrBox img{width:220px}
 </style>
 </head>
 
@@ -102,13 +103,15 @@ input,textarea{
 </div>
 </div>
 
-<!-- QR FALLBACK -->
-<div id="qrModal">
-  <div id="qrBox">
-    <h3>Scan & Pay</h3>
-    <img id="qrImg">
-    <p>UPI ID: <b>adityadhiman7876-1@oksbi</b></p>
-    <button class="btn" onclick="closeQR()">Payment Done</button>
+<!-- 🔐 UPI CONFIRMATION -->
+<div id="upiModal">
+  <div id="upiBox">
+    <h3>Complete Payment</h3>
+    <p>UPI ID:<br><b>adityadhiman7876-1@oksbi</b></p>
+
+    <button class="btn" onclick="openUPI()">Open UPI App</button>
+    <br><br>
+    <button class="btn" onclick="markPaid()">Payment Done</button>
   </div>
 </div>
 
@@ -116,27 +119,25 @@ input,textarea{
 const FORM_URL="https://docs.google.com/forms/d/e/1FAIpQLScVJ6GvrDCOWJN5ykJ-Zzoi9F2BWAT6M5JXJCwryCOScb8WkA/formResponse";
 const UPI_ID="adityadhiman7876-1@oksbi";
 
-const items=sub=ship=tot=null;
-const name=document.getElementById("name"),
-phone=document.getElementById("phone"),
-address=document.getElementById("address"),
-err=document.getElementById("err"),
-codBtn=document.getElementById("codBtn"),
-upiBtn=document.getElementById("upiBtn");
+const itemsEl=document.getElementById("items"),
+sub=document.getElementById("sub"),
+ship=document.getElementById("ship"),
+tot=document.getElementById("tot"),
+err=document.getElementById("err");
 
 let cart=JSON.parse(localStorage.getItem("cart"))||[];
 let payment="";
 
 function render(){
  let s=0,html="";
- cart.forEach((p,i)=>{
+ cart.forEach(p=>{
   s+=p.price*p.qty;
-  html+=`${p.name} × ${p.qty}<br>`;
+  html+=`<div class="item">${p.name} × ${p.qty}</div>`;
  });
- document.getElementById("items").innerHTML=html||"Empty";
- document.getElementById("sub").innerText=s;
- document.getElementById("ship").innerText=s>=999?0:79;
- document.getElementById("tot").innerText=s+(s>=999?0:79);
+ itemsEl.innerHTML=html||"Empty";
+ sub.textContent=s;
+ ship.textContent=s>=999?0:79;
+ tot.textContent=s+(s>=999?0:79);
 }
 render();
 
@@ -152,68 +153,42 @@ function placeOrder(){
   err.textContent="Fill all details";return;
  }
 
- let total=+document.getElementById("tot").innerText;
+ const total=+tot.textContent;
 
- // SAVE ORDER STATUS
  localStorage.setItem("lastOrder",JSON.stringify({
+  items:cart.map(p=>`${p.name} × ${p.qty}`),
+  total,
+  payment,
   status: payment==="COD"?"Pending COD":"Pending UPI",
-  total, payment,
   date:new Date().toLocaleString()
  }));
 
- // SEND ADMIN
- let fd=new FormData();
- fd.append("entry.1324507124",name.value);
- fd.append("entry.618528662",phone.value);
- fd.append("entry.1549317860",address.value);
- fd.append("entry.611339007",payment);
- fetch(FORM_URL,{method:"POST",mode:"no-cors",body:fd});
-
- // UPI FLOW
- if (payment === "UPI") {
-
-  const upiUrl =
-    `upi://pay?pa=${UPI_ID}` +
-    `&pn=H%20%26%20Aur@` +
-    `&am=${total}` +
-    `&cu=INR` +
-    `&tn=Order%20Payment`;
-
-  /* 🔥 PRIMARY: HARD REDIRECT (USER GESTURE SAFE) */
-  window.location.assign(upiUrl);
-
-  /* 🔁 SECONDARY: ANDROID INTENT FALLBACK */
-  setTimeout(() => {
-    const intentUrl =
-      `intent://pay?pa=${UPI_ID}` +
-      `&pn=H%20%26%20Aur@` +
-      `&am=${total}` +
-      `&cu=INR` +
-      `&tn=Order%20Payment` +
-      `#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;end`;
-
-    window.location.href = intentUrl;
-  }, 700);
-
-  /* ⛔ STOP COD / WHATSAPP FLOW */
+ if(payment==="UPI"){
+  document.getElementById("upiModal").style.display="block";
+  openUPI(); // auto try
   return;
-}
-
+ }
 
  // COD
- alert("Order placed (COD)");
  localStorage.removeItem("cart");
- location.href="index.html";
+ alert("Order placed (COD)");
+ location.href="my-orders.html";
 }
 
-function closeQR(){
- document.getElementById("qrModal").style.display="none";
- let o=JSON.parse(localStorage.getItem("lastOrder"));
- o.status="Paid (UPI)";
+function openUPI(){
+ const total=tot.textContent;
+ const upi=`upi://pay?pa=${UPI_ID}&pn=H%20%26%20Aur@&am=${total}&cu=INR&tn=Order`;
+ window.location.href=upi;
+}
+
+function markPaid(){
+ let o=JSON.parse(localStorage.getItem("lastOrder"))||{};
+ o.status="Paid";
+ o.verified=true;
  localStorage.setItem("lastOrder",JSON.stringify(o));
- alert("Payment marked as successful");
  localStorage.removeItem("cart");
- location.href="index.html";
+ alert("✅ Payment successful");
+ location.href="my-orders.html";
 }
 </script>
 
